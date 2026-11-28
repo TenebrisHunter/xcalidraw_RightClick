@@ -37,6 +37,7 @@ const config = {
     icon: "assets/icon.ico",
   },
   nsis: {
+    include: "build/installer.nsh",
     artifactName,
     shortcutName: "${productName}",
     uninstallDisplayName: "${productName}",
@@ -81,3 +82,4 @@ const config = {
 } satisfies Configuration;
 
 export default config;
+

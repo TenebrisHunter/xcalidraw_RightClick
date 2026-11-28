@@ -1,5 +1,5 @@
 ﻿!macro customInstall
-  ; Пункт для файлов (любой файл)
+  ; Пункт для файлов
   WriteRegStr HKEY_CLASSES_ROOT "*\shell\Open with xcalidraw\command" "" '"$INSTDIR\xcalidraw.exe" "%1"'
   WriteRegStr HKEY_CLASSES_ROOT "*\shell\Open with xcalidraw" "Icon" "$INSTDIR\xcalidraw.exe"
 
@@ -7,7 +7,7 @@
   WriteRegStr HKEY_CLASSES_ROOT "Directory\shell\Open with xcalidraw\command" "" '"$INSTDIR\xcalidraw.exe" "%1"'
   WriteRegStr HKEY_CLASSES_ROOT "Directory\shell\Open with xcalidraw" "Icon" "$INSTDIR\xcalidraw.exe"
 
-  ; Пункт для фона папки (клик по пустому месту внутри папки)
+  ; Пункт для фона папки
   WriteRegStr HKEY_CLASSES_ROOT "Directory\Background\shell\Open with xcalidraw\command" "" '"$INSTDIR\xcalidraw.exe" "%V"'
   WriteRegStr HKEY_CLASSES_ROOT "Directory\Background\shell\Open with xcalidraw" "Icon" "$INSTDIR\xcalidraw.exe"
 !macroend
