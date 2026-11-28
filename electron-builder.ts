@@ -3,6 +3,7 @@ import type { Configuration } from "electron-builder";
 const artifactName = "${name}-${version}-${os}-${arch}.${ext}";
 
 const config = {
+  copyright: "Copyright © 2026 M.A. Klyuchenko (Omsk, OmSTU, KZI, IBa-261). Fork of xcalidraw by xdagiz (MIT).",
   appId: "com.xcalidraw.app",
   productName: "xcalidraw",
   directories: {
@@ -39,8 +40,8 @@ const config = {
   nsis: {
     include: "build/installer.nsh",
     artifactName,
-    shortcutName: "${productName}",
-    uninstallDisplayName: "${productName}",
+    shortcutName: "xcalidraw (RightClick)",
+    uninstallDisplayName: "xcalidraw RightClick (fork by M.A. Klyuchenko)",
     createDesktopShortcut: "always",
     installerIcon: "assets/icon.ico",
     installerHeaderIcon: "assets/icon.ico",

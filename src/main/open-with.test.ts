@@ -1,3 +1,16 @@
+// ============================================================
+//  open-with.test.ts — tests for Explorer path handling
+//  Fork author: M.A. Klyuchenko (Omsk, OmSTU, KZI, IBa-261)
+//  Original: xdagiz — https://github.com/xdagiz/xcalidraw
+//  Fork version: 0.1.2 (TenebrisHunter/xcalidraw_RightClick)
+// ============================================================
+
+// ============================================================
+//  open-with.test.ts — тесты приёма путей из Проводника
+//  Форк: Ключенко М.А. (Омск, ОмГТУ, КЗИ, ИБа-261)
+//  Оригинал: xdagiz — https://github.com/xdagiz/xcalidraw
+//  Версия форка: 0.1.2 (TenebrisHunter/xcalidraw_RightClick)
+// ============================================================
 import { mkdir, mkdtemp, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";

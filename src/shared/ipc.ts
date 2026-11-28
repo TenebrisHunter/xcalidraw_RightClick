@@ -1,3 +1,10 @@
+// ============================================================
+//  ipc.ts — IPC channel and event types
+//  Fork author: M.A. Klyuchenko (Omsk, OmSTU, KZI, IBa-261)
+//  Original: xdagiz — https://github.com/xdagiz/xcalidraw
+//  Fork version: 0.1.2 (TenebrisHunter/xcalidraw_RightClick)
+// ============================================================
+
 import { codedError } from "./errors";
 import type { RendererSafeError } from "./errors";
 

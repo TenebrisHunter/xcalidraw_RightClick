@@ -1,3 +1,16 @@
+// ============================================================
+//  drawings.ts — folder selection and switching for drawings
+//  Fork author: M.A. Klyuchenko (Omsk, OmSTU, KZI, IBa-261)
+//  Original: xdagiz — https://github.com/xdagiz/xcalidraw
+//  Fork version: 0.1.2 (TenebrisHunter/xcalidraw_RightClick)
+// ============================================================
+
+// ============================================================
+//  drawings.ts — выбор/переключение папки с рисунками
+//  Форк: Ключенко М.А. (Омск, ОмГТУ, КЗИ, ИБа-261)
+//  Оригинал: xdagiz — https://github.com/xdagiz/xcalidraw
+//  Версия форка: 0.1.2 (TenebrisHunter/xcalidraw_RightClick)
+// ============================================================
 import { realpath, stat } from "node:fs/promises";
 import { resolve, basename } from "node:path";
 

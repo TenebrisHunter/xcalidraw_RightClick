@@ -1,3 +1,16 @@
+// ============================================================
+//  index.ts — Electron main process entry point
+//  Fork author: M.A. Klyuchenko (Omsk, OmSTU, KZI, IBa-261)
+//  Original: xdagiz — https://github.com/xdagiz/xcalidraw
+//  Fork version: 0.1.2 (TenebrisHunter/xcalidraw_RightClick)
+// ============================================================
+
+// ============================================================
+//  index.ts — главный процесс Electron (точка входа)
+//  Форк: Ключенко М.А. (Омск, ОмГТУ, КЗИ, ИБа-261)
+//  Оригинал: xdagiz — https://github.com/xdagiz/xcalidraw
+//  Версия форка: 0.1.2 (TenebrisHunter/xcalidraw_RightClick)
+// ============================================================
 for (const stream of [process.stdout, process.stderr]) {
   stream.on("error", (error: NodeJS.ErrnoException) => {
     if (error.code === "EPIPE") return;

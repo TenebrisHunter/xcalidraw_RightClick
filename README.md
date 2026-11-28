@@ -53,4 +53,23 @@ vpr dev
 ## Acknowledgements
 
 xcalidraw is built with [Excalidraw](https://github.com/excalidraw/excalidraw).
+---
 
+## Fork info
+
+**This is a fork of [xcalidraw](https://github.com/xdagiz/xcalidraw) by [xdagiz](https://github.com/xdagiz).**
+
+- **Fork author:** M.A. Klyuchenko (Omsk, OmSTU, KZI, IBa-261)
+- **Fork repository:** https://github.com/TenebrisHunter/xcalidraw_RightClick
+- **Fork version:** 0.1.2
+
+### What's new in the fork
+
+- **Windows Explorer context menu integration**: right-click on any folder, any `.excalidraw` file, or empty space inside a folder → "Open with xcalidraw (RightClick)".
+- App accepts **folder paths** via command line (sets the folder as workspace) and **file paths** (opens the file, sets its parent folder as workspace).
+- Handles `second-instance` argument passing — if the app is already open, the new path is delivered to the running instance instead of spawning a second window.
+- `build/installer.nsh` — custom NSIS script registers the context menu entries under `HKEY_CLASSES_ROOT`.
+
+### License
+
+MIT. Original code © xdagiz; fork changes © M.A. Klyuchenko (2026).

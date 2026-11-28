@@ -1,3 +1,16 @@
+// ============================================================
+//  open-with.ts — handling paths passed from Windows Explorer
+//  Fork author: M.A. Klyuchenko (Omsk, OmSTU, KZI, IBa-261)
+//  Original: xdagiz — https://github.com/xdagiz/xcalidraw
+//  Fork version: 0.1.2 (TenebrisHunter/xcalidraw_RightClick)
+// ============================================================
+
+// ============================================================
+//  open-with.ts — приём путей из Проводника Windows
+//  Форк: Ключенко М.А. (Омск, ОмГТУ, КЗИ, ИБа-261)
+//  Оригинал: xdagiz — https://github.com/xdagiz/xcalidraw
+//  Версия форка: 0.1.2 (TenebrisHunter/xcalidraw_RightClick)
+// ============================================================
 import { constants as fsConstants, statSync } from "node:fs";
 import { open, realpath, stat } from "node:fs/promises";
 import { basename, isAbsolute, relative, resolve, sep } from "node:path";
