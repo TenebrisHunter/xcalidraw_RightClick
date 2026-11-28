@@ -14,6 +14,13 @@ export const useOpenPaths = () => {
             description: outcome.message,
             type: "error",
           });
+        } else if (outcome.status === "root") {
+          toast.add({
+            id: `open-path-root:${outcome.root}`,
+            title: "Drawings folder switched",
+            description: outcome.root,
+            type: "success",
+          });
         }
       }
       const opened = outcomes.find((outcome) => outcome.status === "open");

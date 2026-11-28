@@ -5,6 +5,8 @@ for (const stream of [process.stdout, process.stderr]) {
   });
 }
 
+import { stat } from "node:fs/promises";
+
 import { electronApp, optimizer, is } from "@electron-toolkit/utils";
 import { APP_OPEN_PATHS, FILES_CHANGED, WATCHER_ERROR } from "@shared/channels";
 import type { FilesChangedEvent, WatcherErrorEvent } from "@shared/ipc";
@@ -20,7 +22,7 @@ import {
   type MenuItemConstructorOptions,
 } from "electron";
 
-import { getDrawings, pickDrawings } from "./drawings";
+import { getDrawings, pickDrawings, switchDrawings } from "./drawings";
 import {
   copyEntry,
   createDrawingWithContent,
@@ -210,6 +212,35 @@ const openPathQueue = createOpenPathQueue({
   getRoot: async () => {
     const info = await getDrawings();
     return info.configured && info.path ? info.path : null;
+  },
+  isDirectory: async (absPath) => {
+    const stats = await stat(absPath).catch(() => null);
+    return stats?.isDirectory() ?? false;
+  },
+  switchRoot: async (absPath) => {
+    const info = await switchDrawings(absPath);
+    if (!info.configured || !info.path) {
+      throw new Error(`Not a directory: ${absPath}`);
+    }
+    const w = ensureWatcher();
+    if (w.getRoot() !== info.path) {
+      await w.restart(info.path);
+      void w.refreshNow().catch((error) => log.error("[watcher] refresh failed", error));
+    }
+    void pruneThumbnails();
+
+    const before = BrowserWindow.getAllWindows().filter((win) => !win.isDestroyed());
+    const active = ensureMainWindow();
+    for (const win of before) {
+      if (win === active || win.isDestroyed()) continue;
+      if (!isTrustedRendererUrl(win.webContents.getURL())) continue;
+      win.close();
+    }
+    if (active.isMinimized()) active.restore();
+    active.show();
+    active.focus();
+
+    return info.path;
   },
   getReadyWindow: () => {
     const win = getMainWindow();
@@ -676,3 +707,4 @@ app.on("before-quit", (event) => {
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
 });
+

@@ -109,6 +109,8 @@ const makeDeps = (overrides: Partial<OpenPathQueueDeps> = {}): TestDeps => {
   const sends: { win: string; outcomes: OpenPathOutcome[] }[] = [];
   return {
     getRoot: async () => "/root",
+    isDirectory: async () => false,
+    switchRoot: async () => "/root",
     getReadyWindow: () => ({ isDestroyed: () => false, webContents: { send: () => undefined } }),
     send: (win, outcomes) => {
       sends.push({ win: win.isDestroyed() ? "destroyed" : "main", outcomes });

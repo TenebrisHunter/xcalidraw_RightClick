@@ -1,4 +1,4 @@
-import { constants as fsConstants } from "node:fs";
+import { constants as fsConstants, statSync } from "node:fs";
 import { open, realpath, stat } from "node:fs/promises";
 import { basename, isAbsolute, relative, resolve, sep } from "node:path";
 
@@ -12,12 +12,27 @@ import type { OpenPathOutcome, OpenPathsEvent } from "@shared/ipc";
 const isWindows = process.platform === "win32";
 
 export const extractOpenPaths = (argv: readonly string[], cwd = process.cwd()) => {
+  const exe = resolve(process.execPath).toLowerCase();
   const paths: string[] = [];
   for (const arg of argv) {
     if (!arg || arg.startsWith("-")) continue;
-    if (!isExcalidrawFileName(arg)) continue;
     const absPath = resolve(cwd, arg);
-    if (!paths.includes(absPath)) paths.push(absPath);
+    if (absPath.toLowerCase() === exe) continue;
+
+    let stats;
+    try {
+      stats = statSync(absPath);
+    } catch {
+      continue;
+    }
+
+    if (stats.isDirectory()) {
+      if (!paths.includes(absPath)) paths.push(absPath);
+      continue;
+    }
+    if (stats.isFile() && isExcalidrawFileName(absPath)) {
+      if (!paths.includes(absPath)) paths.push(absPath);
+    }
   }
   return paths;
 };
@@ -153,6 +168,8 @@ export type OpenPathWindow = {
 
 export type OpenPathQueueDeps = {
   getRoot: () => Promise<string | null>;
+  isDirectory: (absPath: string) => Promise<boolean>;
+  switchRoot: (absPath: string) => Promise<string>;
   getReadyWindow: () => OpenPathWindow | null;
   send: (win: OpenPathWindow, outcomes: OpenPathOutcome[]) => void;
   resolveId: (root: string, absPath: string) => Promise<string | null>;
@@ -219,13 +236,26 @@ export const createOpenPathQueue = (deps: OpenPathQueueDeps) => {
         }
 
         if (!item.outcome) {
-          const root = await deps.getRoot().catch(() => null);
-          if (!root) {
-            scheduleRetry();
-            return;
+          const isDir = await deps.isDirectory(item.path).catch(() => false);
+          if (isDir) {
+            try {
+              const newRoot = await deps.switchRoot(item.path);
+              item.outcome = { status: "root", root: newRoot };
+            } catch (error) {
+              item.outcome = {
+                status: "error",
+                name: basename(item.path),
+                message: error instanceof Error ? error.message : String(error),
+              };
+            }
+          } else {
+            const root = await deps.getRoot().catch(() => null);
+            if (!root) {
+              scheduleRetry();
+              return;
+            }
+            await resolveOutcome(item, root);
           }
-
-          await resolveOutcome(item, root);
         }
 
         const win = deps.getReadyWindow();

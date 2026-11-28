@@ -54,5 +54,3 @@ vpr dev
 
 xcalidraw is built with [Excalidraw](https://github.com/excalidraw/excalidraw).
 
-testааа
-check

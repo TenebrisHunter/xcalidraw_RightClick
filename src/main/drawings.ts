@@ -76,3 +76,20 @@ export const pickDrawings = async (win: BrowserWindow | null): Promise<DrawingIn
   setDrawingPath(chosen);
   return getDrawings();
 };
+
+export const switchDrawings = async (chosen: string): Promise<DrawingInfo> => {
+  const resolved = resolve(chosen);
+  const stats = await stat(resolved).catch(() => null);
+  if (!stats?.isDirectory()) {
+    throw codedError(`Not a directory: ${resolved}`, {
+      code: "INVALID",
+      reason: "invalid-arg",
+      field: "path",
+    });
+  }
+
+  await countEntriesFlat(resolved, MAX_WALK_ENTRIES);
+
+  setDrawingPath(resolved);
+  return getDrawings();
+};
